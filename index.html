@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>صائغ الأخبار – أمانة الإعلام</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+/* Layout: two-pane desk — the leader's field report on the start side, the newsroom draft beside it; stacks on phones. */
+:root{
+  --bg:#EEF2EE; --surface:#FFFFFF; --ink:#16241E; --muted:#5A6B63; --line:#D3DCD5;
+  --forest:#1D5C47; --forest-ink:#FFFFFF; --forest-soft:#DCEBE3;
+  --amber:#B87A0C; --amber-soft:#F6EAD0; --danger:#A33A2A;
+  --title:"Aref Ruqaa","Reem Kufi",serif;
+  --display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  --r:10px; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1714; --surface:#17221D; --ink:#E4ECE7; --muted:#97A89F; --line:#2B3A33;
+  --forest:#5FB894; --forest-ink:#0C1511; --forest-soft:#1E3329;
+  --amber:#E2A93F; --amber-soft:#33291A; --danger:#E07B69; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1714; --surface:#17221D; --ink:#E4ECE7; --muted:#97A89F; --line:#2B3A33;
+  --forest:#5FB894; --forest-ink:#0C1511; --forest-soft:#1E3329;
+  --amber:#E2A93F; --amber-soft:#33291A; --danger:#E07B69; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+header.top{display:flex;align-items:center;gap:18px;padding-block:8px 18px;border-bottom:2px solid var(--forest);margin-bottom:22px}
+.logo{flex:none;width:clamp(64px,10vw,92px);aspect-ratio:192/220;max-width:100%;background:#fff;border-radius:12px;padding:6px;box-shadow:0 0 0 1px var(--line)}
+.logo img{display:block;width:100%;height:100%;object-fit:contain}
+.brand{display:flex;flex-direction:column;min-width:0}
+.eyebrow{font-size:12px;color:var(--muted);letter-spacing:.02em}
+h1{font-family:var(--title);font-weight:700;font-size:clamp(34px,5.6vw,52px);line-height:1.2;margin:0;color:var(--forest);text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted);max-width:60ch}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:22px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.pane{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;min-width:0}
+.pane h2{font-family:var(--display);font-weight:500;font-size:20px;margin:0 0 4px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+.note{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--amber-soft);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:16px}
+.note b{color:var(--amber)}
+.note .grow{flex:1;min-width:12em}
+form{display:grid;gap:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}
+fieldset.org{border:1px solid var(--line);border-radius:8px;padding:10px 12px 12px;margin:0;display:grid;gap:10px;min-width:0}
+fieldset.org legend{font-weight:600;font-size:13.5px;padding-inline:4px}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:1100px){.row3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.row3{grid-template-columns:1fr}}
+.chain{margin:0;font-size:13px;color:var(--forest);font-weight:500;overflow-wrap:anywhere}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f label,.lbl{font-weight:600;font-size:13.5px}
+.hint{font-size:12px;color:var(--muted);font-weight:400}
+.req{color:var(--danger);font-weight:600}
+input[type=text],input[type=number],input[type=date],select,textarea{
+  font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+textarea{resize:vertical;min-height:84px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--forest);outline-offset:1px;border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer;background:var(--bg);user-select:none}
+.chip input:checked+span{background:var(--forest);border-color:var(--forest);color:var(--forest-ink)}
+.chip input:focus-visible+span{outline:2px solid var(--amber);outline-offset:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;align-self:flex-start}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0}
+.seg span{display:block;padding:6px 14px;font-size:13px;cursor:pointer;border-inline-start:1px solid var(--line)}
+.seg label:first-child span{border-inline-start:0}
+.seg input:checked+span{background:var(--forest-soft);color:var(--forest);font-weight:600}
+.seg input:focus-visible+span{outline:2px solid var(--amber);outline-offset:-2px}
+.btn{font:inherit;font-weight:600;border-radius:8px;padding:10px 18px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center}
+.btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.btn.primary{background:var(--forest);color:var(--forest-ink)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.small{padding:5px 11px;font-size:12.5px;font-weight:500}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.err{color:var(--danger);font-size:13px}
+.out-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.tag{font-size:11.5px;background:var(--amber-soft);color:var(--amber);border-radius:999px;padding:2px 10px;font-weight:600}
+.block{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.block.first{border-top:0;margin-top:0;padding-top:0}
+.block-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.block-h h3{margin:0;font-size:13px;color:var(--muted);font-weight:600}
+.heads{display:grid;gap:8px}
+.head{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;background:var(--bg)}
+.head input{margin-top:7px;accent-color:var(--forest)}
+.head span{font-family:var(--display);font-weight:500;font-size:18px;line-height:1.45;text-wrap:balance;min-width:0}
+.head:has(input:checked){border-color:var(--forest);background:var(--forest-soft)}
+.editable{white-space:pre-wrap;border-radius:8px;padding:10px 12px;border:1px dashed transparent;outline:none}
+.editable:hover{border-color:var(--line)}
+.editable:focus{border-color:var(--forest);background:var(--bg)}
+.body-text{font-size:15.5px;line-height:1.95;max-width:65ch}
+.social{background:var(--bg);font-size:14.5px}
+.toast{position:fixed;inset-inline:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none}
+.toast div{background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:13px}
+footer{margin-top:28px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><img src="data:image/webp;base64,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" alt="شعار جمعية كشافة الرسالة الإسلامية" width="192" height="220"></div>
+    <div class="brand">
+      <span class="eyebrow">جمعية كشافة الرسالة الإسلامية - مفوضية جبل عامل - أمانة الإعلام</span>
+      <h1>صائغ الأخبار</h1>
+      <p>أدخل معلومات النشاط، فتصوغ الأداة العناوين ومتن الخبر ونص النشر وفق القالب المعتمد. يمكنك تعديل النتيجة مباشرة قبل نسخها.</p>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="pane" aria-labelledby="in-h">
+      <h2 id="in-h">معلومات النشاط</h2>
+      <p class="sub">الحقول المعلّمة <span class="req">*</span> ضرورية، والباقي يُغني الخبر.</p>
+
+      <div class="note" id="sampleNote">
+        <div class="grow"><b>بيانات تجريبية.</b> النموذج معبّأ بمثال لتوضيح طريقة العمل. امسحه وأدخل معلومات نشاطك.</div>
+        <button type="button" class="btn ghost small" id="clearBtn">مسح النموذج</button>
+      </div>
+
+      <form id="f" novalidate>
+        <fieldset class="org">
+          <legend>الجهة المنفِّذة <span class="req">*</span> <span class="hint">— اختر المرحلة إن نفّذتها وحدة داخل الفوج، واترك الفوج فارغاً إن كان النشاط على مستوى المنطقة</span></legend>
+          <div class="row3">
+            <div class="f">
+              <label for="comm">المفوضية</label>
+              <input type="text" id="comm" placeholder="جبل عامل" autocomplete="off">
+            </div>
+            <div class="f">
+              <label for="region">المنطقة</label>
+              <select id="region"></select>
+            </div>
+            <div class="f">
+              <label for="troop">الفوج</label>
+              <input type="text" id="troop" placeholder="فوج الإمام علي (ع) صور" autocomplete="off">
+            </div>
+            <div class="f">
+              <label for="stage">المرحلة المنفِّذة</label>
+              <select id="stage"></select>
+            </div>
+            <div class="f" id="stageNameBox">
+              <label for="stageName">اسم المرحلة <span class="hint">— إن وُجد</span></label>
+              <input type="text" id="stageName" placeholder="الإمام الصدر" autocomplete="off">
+            </div>
+          </div>
+          <p class="chain"><span class="hint">تظهر في الخبر هكذا:</span> <span id="chainPreview"></span></p>
+        </fieldset>
+        <div class="row2">
+          <div class="f">
+            <label for="kind">نوع النشاط <span class="req">*</span></label>
+            <select id="kind"></select>
+          </div>
+          <div class="f">
+            <label for="title">اسم النشاط <span class="hint">— إن وُجد</span></label>
+            <input type="text" id="title" placeholder="يوم البيئة الكشفي">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="f">
+            <label for="audience">لمن أُقيم النشاط؟ <span class="hint">— إن كان لفئة محدّدة</span></label>
+            <input type="text" id="audience" placeholder="قيادات المناطق">
+          </div>
+          <div class="f">
+            <label for="series">ضمن سلسلة أو برنامج</label>
+            <input type="text" id="series" placeholder="عزم الجوال">
+          </div>
+        </div>
+        <div class="f">
+          <span class="lbl">المراحل المشاركة</span>
+          <div class="chips" id="units"></div>
+        </div>
+        <div class="row2">
+          <div class="f">
+            <label for="place">المكان <span class="req">*</span></label>
+            <input type="text" id="place" placeholder="مدينة بعلبك / الخلاء / بلدة شقرا">
+          </div>
+          <div class="f">
+            <label for="date">التاريخ <span class="hint">— اختياري</span></label>
+            <input type="date" id="date">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="f">
+            <label for="goal">الهدف من النشاط <span class="hint">— بصيغة المصدر</span></label>
+            <input type="text" id="goal" placeholder="تعزيز المعارف والمهارات الكشفية">
+          </div>
+          <div class="f">
+            <label for="count">عدد المشاركين <span class="hint">— اختياري</span></label>
+            <input type="number" id="count" min="0" inputmode="numeric">
+          </div>
+        </div>
+        <div class="f">
+          <label for="guests">المرافقون والحضور <span class="hint">— كل شخص في سطر: الصفة ثم «القائد» ثم الاسم، بالترتيب البروتوكولي</span></label>
+          <textarea id="guests" rows="3" placeholder="مفوض البقاع القائد علي شحادة"></textarea>
+        </div>
+        <div class="f">
+          <label for="details">فقرات النشاط <span class="req">*</span> <span class="hint">— كل فقرة في سطر، تبدأ باسم لا بفعل: جلسة حول… / زيارة إلى… / لقاء مع…</span></label>
+          <textarea id="details" rows="6"></textarea>
+        </div>
+        <div class="row2">
+          <div class="f">
+            <label for="speaker">صاحب الكلمة <span class="hint">— إن وُجدت</span></label>
+            <input type="text" id="speaker" placeholder="مفوض جبل عامل القائد قاسم حيدر">
+          </div>
+          <div class="f">
+            <label for="speech">مضمون الكلمة <span class="hint">— ابدأ بـ: أكّد فيها / شدّد فيها — ولكلمتين: أكّدا فيهما</span></label>
+            <input type="text" id="speech">
+          </div>
+        </div>
+        <div class="f">
+          <label for="ending">كيف اختُتم النشاط؟ <span class="hint">— اسم لا فعل: لقاء مع… / تقديم دروع تكريمية…</span></label>
+          <input type="text" id="ending">
+        </div>
+        <div class="f">
+          <span class="lbl">طول الخبر</span>
+          <div class="seg" role="radiogroup" aria-label="طول الخبر">
+            <label><input type="radio" name="len" value="short" id="len-s"><span>قصير</span></label>
+            <label><input type="radio" name="len" value="medium" id="len-m"><span>متوسط</span></label>
+            <label><input type="radio" name="len" value="long" id="len-l" checked><span>مفصّل</span></label>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary">صُغ الخبر</button>
+          <span class="err" id="formErr" role="alert"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="pane" aria-labelledby="out-h" aria-live="polite">
+      <div class="out-head">
+        <h2 id="out-h">الخبر المصاغ</h2>
+        <span class="tag" id="outTag">مثال</span>
+      </div>
+      <p class="sub">اختر العنوان، وعدّل المتن بالضغط عليه إن لزم، ثم انسخ. راجع الأسماء والصفات قبل النشر.</p>
+
+      <div class="block first">
+        <div class="block-h"><h3>العناوين المقترحة</h3></div>
+        <div class="heads" id="heads"></div>
+      </div>
+      <div class="block">
+        <div class="block-h"><h3>متن الخبر</h3><button class="btn ghost small" type="button" data-copy="body">نسخ المتن</button></div>
+        <div class="editable body-text" id="body" contenteditable="true" spellcheck="false"></div>
+      </div>
+      <div class="block">
+        <div class="block-h"><h3>نص مختصر لوسائل التواصل</h3><button class="btn ghost small" type="button" data-copy="social">نسخ</button></div>
+        <div class="editable social" id="social" contenteditable="true" spellcheck="false"></div>
+      </div>
+      <div class="block actions">
+        <button class="btn primary" type="button" id="copyAll">نسخ العنوان والخبر</button>
+      </div>
+    </section>
+  </div>
+
+  <footer>جمعية كشافة الرسالة الإسلامية - مفوضية جبل عامل - أمانة الإعلام · أداة داخلية للقادة الإعلاميين</footer>
+</div>
+<div class="toast" id="toast" hidden><div id="toastText"></div></div>
+
+<script>
+/* =========================================================
+   إعدادات قابلة للتعديل من المسؤول الإعلامي
+   ========================================================= */
+const CONFIG = {
+  association: "جمعية كشافة الرسالة الإسلامية",
+  tags: "#كشافة_الرسالة_الإسلامية",
+  /* المراحل داخل الفوج: الاسم، والتذكير/التأنيث، والمرحلة المقابلة في خانة "المراحل المشاركة" */
+  stages: [
+    { name: "وحدة الدليلات",       fem: true,  unit: "الدليلات" },
+    { name: "عشيرة الجوالة",       fem: true,  unit: "الجوالة" },
+    { name: "فرقة الكشافة",        fem: true,  unit: "الكشافة" },
+    { name: "فرقة المرشدات",       fem: true,  unit: "المرشدات" },
+    { name: "باقة الزهرات",        fem: true,  unit: "الزهرات" },
+    { name: "قطيع الأشبال",        fem: false, unit: "الأشبال" },
+    { name: "باقة البراعم",        fem: true,  unit: "البراعم" },
+    { name: "فرقة الدفاع المدني",  fem: true,  unit: "" },
+    { name: "وحدة المسعفات",       fem: true,  unit: "" }
+  ],
+  /* مناطق مفوضية جبل عامل */
+  regions: ["المنطقة الأولى","المنطقة الثانية","المنطقة الثالثة","المنطقة الرابعة","المنطقة الخامسة","المنطقة السادسة","المنطقة السابعة","المنطقة الثامنة","المنطقة التاسعة"],
+  defaultCommissariat: "جبل عامل",
+  units: ["البراعم","الأشبال","الزهرات","الكشافة","المرشدات","الجوالة","الدليلات","القادة"]
+};
+
+/* أنواع النشاط
+   m/f/pm/pf : الفعل (ماضٍ مذكّر/مؤنّث، مضارع مذكّر/مؤنّث)
+   noun      : المفعول في المتن (منصوب، بتنوين الجمعية: نشاطًا كشفيًّا)
+   hn        : اسم النشاط في العنوان الاسمي (رحلة كشفية لعشيرة الجوالة…)
+   ref, fem  : كيف يُشار إلى النشاط في الفقرات (وتخلّلت الرحلة / وتخلّل النشاط)
+   prep      : حرف الجرّ قبل المكان */
+const V = (m,f,pm,pf) => ({m,f,pm,pf});
+const NAZZAM = V("نظّم","نظّمت","ينظّم","تنظّم"), AQAM = V("أقام","أقامت","يقيم","تقيم"),
+      NAFFAD = V("نفّذ","نفّذت","ينفّذ","تنفّذ"), AHYA = V("أحيا","أحيت","يحيي","تحيي");
+const KINDS = {
+  "نشاط كشفي":            {...NAZZAM, noun:"نشاطًا كشفيًّا",   hn:"نشاط كشفي",   ref:"النشاط",  fem:false},
+  "رحلة / جولة استكشافية": {...NAZZAM, noun:"رحلةً كشفية",     hn:"رحلة كشفية",  ref:"الرحلة",  fem:true, prep:"إلى"},
+  "مخيّم":                 {...AQAM,   noun:"مخيّمًا كشفيًّا",  hn:"مخيّم كشفي",  ref:"المخيّم", fem:false},
+  "دورة تدريبية":          {...AQAM,   noun:"دورةً تدريبية",    hn:"دورة تدريبية", ref:"الدورة", fem:true},
+  "حفل / احتفال":          {...AQAM,   noun:"حفلًا",            hn:"حفل",          ref:"الحفل",  fem:false},
+  "إحياء مناسبة دينية":    {...AHYA,   noun:"مناسبةً دينية",    hn:"إحياء مناسبة دينية", ref:"الاحتفال", fem:false, occasion:true},
+  "إحياء مناسبة وطنية":    {...AHYA,   noun:"مناسبةً وطنية",    hn:"إحياء مناسبة وطنية", ref:"الاحتفال", fem:false, occasion:true},
+  "خدمة عامة / عمل تطوعي": {...NAFFAD, noun:"نشاطًا تطوعيًّا",  hn:"نشاط تطوعي",  ref:"النشاط",  fem:false},
+  "نشاط بيئي":             {...NAFFAD, noun:"نشاطًا بيئيًّا",   hn:"نشاط بيئي",   ref:"النشاط",  fem:false},
+  "زيارة":                 {...NAZZAM, noun:"زيارةً",            hn:"زيارة",        ref:"الزيارة", fem:true, prep:"إلى"},
+  "لقاء / ندوة":           {...V("عقد","عقدت","يعقد","تعقد"), noun:"لقاءً", hn:"لقاء", ref:"اللقاء", fem:false},
+  "تكريم":                 {...AQAM,   noun:"حفلَ تكريم",       hn:"حفل تكريم",   ref:"الحفل",   fem:false},
+  "مشاركة في فعالية":      {...V("شارك","شاركت","يشارك","تشارك"), participate:true, noun:"", hn:"مشاركة", ref:"المشاركة", fem:true},
+  "استعراض / مسير":        {...NAZZAM, noun:"مسيرًا كشفيًّا",   hn:"مسير كشفي",   ref:"المسير",  fem:false},
+  "أخرى":                  {...NAZZAM, noun:"نشاطًا",           hn:"نشاط",         ref:"النشاط",  fem:false}
+};
+
+/* =========================================================
+   أدوات اللغة
+   ========================================================= */
+const MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
+const DAYS = ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+function arDate(iso){
+  if(!iso) return "";
+  const [y,m,d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y,m-1,d));
+  return `يوم ${DAYS[dt.getUTCDay()]} الواقع فيه ${d} ${MONTHS[m-1]} ${y}`;
+}
+const clean = x => x.trim().replace(/^[-•*·\d.)\s]+/, "").replace(/[.،؛,\s]+$/,"");
+const lines = s => (s||"").split(/\n+/).map(clean).filter(Boolean);
+const andList = arr => arr.length <= 1 ? (arr[0]||"") : arr.slice(0,-1).join("، و") + "، و" + arr[arr.length-1];
+const andJoin = arr => arr.join(" و");
+const firstPart = s => (s||"").split("،")[0].trim();
+const lam = x => /^ال/.test(x) ? "لل" + x.slice(2) : "ل" + x;          // لـ + الجهة: للمنطقة، لعشيرة
+const bi  = x => /^ب/.test(x) ? x : "ب" + x;
+const quoted = t => /^«.*»$/.test(t) ? t : `«${t}»`;
+
+/* تراتبية الجهة المنفِّذة في المتن:
+   جمعية كشافة الرسالة الإسلامية - مفوضية ... - المنطقة ... - فوج ... - عشيرة ... */
+function orgParts(d){
+  const comm   = d.comm   ? (/^مفو(ّ)?ضية/.test(d.comm) ? d.comm : "مفوضية " + d.comm) : "";
+  const region = d.region ? (/^(ال)?منطقة/.test(d.region) ? d.region : "منطقة " + d.region) : "";
+  const troop  = d.troop  ? (/^فوج/.test(d.troop) ? d.troop : "فوج " + d.troop) : "";
+  const st = CONFIG.stages.find(x => x.name === d.stage);
+  // في المتن: الاسم الخاص إن وُجد (عشيرة الإمام الصدر)، وفي العنوان: اسم المرحلة العام (عشيرة الجوالة)
+  const stageBody = st ? (d.stageName ? `${st.name.split(" ")[0]} ${d.stageName}` : st.name) : "";
+  const stageHead = st ? st.name : "";
+  const chain = [CONFIG.association, comm, region, troop, stageBody].filter(Boolean).join(" - ");
+  const lead = stageHead || troop || region || comm;
+  const parent = st ? (troop || region || comm || CONFIG.association)
+               : troop ? (region || comm || CONFIG.association)
+               : region ? (comm || CONFIG.association)
+               : comm ? CONFIG.association : "";
+  const short = lead ? `${lead} في ${parent}` : CONFIG.association;
+  // الفوج والقطيع مذكّران؛ المنطقة والمفوضية والعشيرة والفرقة والباقة والوحدة مؤنّثة
+  const leadFem = st ? st.fem : !troop;
+  return { chain, lead: lead || CONFIG.association, parent, short, leadFem };
+}
+
+/* =========================================================
+   محرّك الصياغة — مبني على الأخبار المنشورة للجمعية
+   ========================================================= */
+function compose(d){
+  const k = KINDS[d.kind] || KINDS["أخرى"];
+  const { chain, lead, parent, short, leadFem } = orgParts(d);
+  const T = k.fem ? "ت" : "";                       // تخلّلت الرحلة / تخلّل النشاط
+  let prep = k.prep || "في";
+  if (/^(الخلاء|خلاء|أحراج|غابة|وادي|جبل)/.test(d.place)) prep = "في";
+  if (!k.prep && /^(شاطئ|ضفاف|ضفة|ضفّة|كورنيش|ساحل)/.test(d.place)) prep = "على";
+  const unitsTxt = andJoin(d.units);
+  const guests = lines(d.guests);
+  const items = lines(d.details);
+  const goal = clean(d.goal || "").replace(/^(بهدف|يهدف إلى|تهدف إلى|الهادفة إلى)\s*/, "");
+  const series = d.series ? quoted(clean(d.series).replace(/^سلسلة\s*/, "")) : "";
+  const title = d.title ? quoted(clean(d.title)) : "";
+
+  // ما يلي الفعل في الجملة الأولى
+  let obj;
+  if (k.participate) obj = `في ${title || "فعالية"}`;
+  else if (k.occasion) obj = title ? `ذكرى ${clean(d.title)}` : k.noun;
+  else obj = title ? `${k.noun} بعنوان ${title}` : k.noun;
+  const objHead = k.participate ? `في ${title || "فعالية"}` : k.occasion ? (title ? `ذكرى ${clean(d.title)}` : k.noun) : (title || k.noun);
+
+  // ---------- الفقرة الأولى ----------
+  let p1 = `${k.f} ${chain}`;
+  p1 += d.date ? `، ${arDate(d.date)}،` : "،";
+  p1 += ` ${obj}`;
+  if (d.audience) p1 += ` ${lam(d.audience)}`;
+  if (d.place) p1 += ` ${prep} ${d.place}`;
+  if (d.count && unitsTxt) p1 += `، بمشاركة ${d.count} من ${unitsTxt}`;
+  else if (d.count) p1 += `، بمشاركة ${d.count} مشاركًا`;
+  else if (unitsTxt && !(d.stage && d.units.length === 1)) p1 += `، بمشاركة ${unitsTxt}`;
+  if (series) p1 += `، وذلك ضمن سلسلة ${series}`;
+  if (goal) p1 += `، بهدف ${goal}`;
+  const guestsInline = guests.length && guests.length <= 2;
+  if (guestsInline) p1 += `، بحضور ${andList(guests)}`;
+  p1 += ".";
+
+  const paras = [p1];
+  if (guests.length > 2 && d.len !== "short") paras.push(`وحضر ${k.ref} ${andList(guests)}.`);
+
+  // ---------- فقرات النشاط ----------
+  const openers = [`وتخلّل${T} ${k.ref} `, `كما تخلّل${T} ${k.ref} `, `وشهد${T} ${k.ref} أيضًا `, `كما تضمّن${T} ${k.ref} `, `إلى جانب ذلك، تضمّن${T} ${k.ref} `];
+  const joiners = ["، إضافةً إلى ", "، إلى جانب "];
+  const perPara = 2;
+  const use = d.len === "short" ? items.slice(0, 2) : d.len === "medium" ? items.slice(0, 4) : items;
+  for (let i = 0, n = 0; i < use.length; i += perPara, n++) {
+    const chunk = use.slice(i, i + perPara);
+    let s = openers[Math.min(n, openers.length - 1)] + chunk[0];
+    if (chunk[1]) s += joiners[n % 2] + chunk[1];
+    paras.push(s + ".");
+  }
+
+  // ---------- الكلمة ----------
+  if (d.speaker && d.len !== "short")
+    paras.push(`وخلال ${k.ref}، ألقى ${d.speaker} ${/فيهما/.test(d.speech) ? "كلمتين" : "كلمةً"}${d.speech ? " " + clean(d.speech) : ""}.`);
+
+  // ---------- الختام ----------
+  if (d.ending) paras.push(`واختُتم${T} ${k.ref} ${bi(clean(d.ending))}.`);
+  if (series && d.len !== "short") {
+    paras.push(`${k.fem ? "وتأتي هذه" : "ويأتي هذا"} ${k.ref.replace(/^ال/, "ال")} ضمن سلسلة ${series}${goal ? `، الهادفة إلى ${goal}` : ""}.`);
+  }
+  const body = paras.join("\n\n");
+
+  // ---------- العناوين ----------
+  const placeShort = firstPart(d.place);
+  const where = d.place ? ` ${prep} ${placeShort}` : "";
+  const hv = leadFem ? k.f : k.m;
+  const h = [];
+  // 1) العنوان الاسمي، على نمط الأخبار المنشورة
+  if (k.participate) h.push(`مشاركة ${lead} في ${parent} ${objHead}`);
+  else if (d.audience) h.push(`${k.occasion && title ? "إحياء " + objHead : k.hn} ${lam(d.audience)} في ${lead}${where}`);
+  else h.push(`${k.occasion && title ? "إحياء " + objHead : k.hn} ${lam(lead)} في ${parent}${where}`);
+  // 2) العنوان الفعلي: الجهة المختصرة + فعل ماضٍ
+  h.push(`${short} ${hv} ${objHead}${d.audience ? " " + lam(d.audience) : ""}${where}`);
+  // 3) زاوية ثالثة
+  if (series) h.push(`ضمن سلسلة ${series}: ${short} ${hv} ${objHead}`);
+  else if (guests.length) h.push(`بحضور ${guests[0]}: ${short} ${hv} ${objHead}`);
+  else if (d.count) h.push(`بمشاركة ${d.count} ${unitsTxt ? "من " + unitsTxt : "مشاركًا"}: ${short} ${hv} ${objHead}`);
+  else if (goal) h.push(`${short} ${hv} ${objHead} بهدف ${goal}`);
+  const headlines = [...new Set(h.map(x => x.replace(/\s+/g, " ").trim()))].slice(0, 3);
+
+  // ---------- وسائل التواصل ----------
+  let social = `${k.f} ${chain} ${obj}${d.audience ? " " + lam(d.audience) : ""}${where}`;
+  if (series) social += `، ضمن سلسلة ${series}`;
+  if (goal) social += `، بهدف ${goal}`;
+  else if (items.length) social += `، ${k.fem ? "وتخلّلتها" : "وتخلّله"} ${items[0]}`;
+  social += ".\n\n" + CONFIG.tags;
+
+  return { headlines, body, social };
+}
+
+/* =========================================================
+   الواجهة
+   ========================================================= */
+const $ = id => document.getElementById(id);
+$("kind").innerHTML = `<option value="">— اختر —</option>` + Object.keys(KINDS).map(k => `<option>${k}</option>`).join("");
+$("units").innerHTML = CONFIG.units.map((u,i) => `<label class="chip"><input type="checkbox" id="u${i}" value="${u}"><span>${u}</span></label>`).join("");
+
+$("region").innerHTML = `<option value="">على مستوى المفوضية</option>` + CONFIG.regions.map(r => `<option>${r}</option>`).join("");
+$("region").addEventListener("change", updateChainSafe);
+function updateChainSafe(){ if (typeof updateChain === "function") updateChain(); }
+$("stage").innerHTML = `<option value="">الفوج كاملاً</option>` + CONFIG.stages.map(x => `<option>${x.name}</option>`).join("");
+const FIELDS = ["comm","region","troop","stage","stageName","kind","title","audience","series","place","date","goal","count","guests","details","speaker","speech","ending"];
+const SAMPLE = {   /* مأخوذ من خبر منشور للجمعية */
+  comm:"جبل عامل", region:"المنطقة السابعة", troop:"فوج أبي ذر الغفاري – شقرا",
+  stage:"عشيرة الجوالة", stageName:"الإمام الصدر",
+  kind:"رحلة / جولة استكشافية", series:"عزم الجوال", place:"الخلاء", units:["الجوالة"],
+  goal:"تعزيز المعارف والمهارات الكشفية لدى الجوالة",
+  details:"جلسة حول الروح الكشفية في رحلة الخلاء، تناولت أهميتها في تعزيز روح الفريق والاعتماد على الذات\nجلسة تدريبية حول نظام المجموعات وأهمية العمل الجماعي في تنظيم العمل وتحقيق الأهداف\nجلسة حول أنواع المواقد وكيفية صنعها، تعرّف خلالها الجوالة إلى استخداماتها\nجلسة بعنوان «البوصلة والخريطة» تناولت مبادئ تحديد الاتجاهات في حياة الخلاء\nفقرات ترفيهية وأنشطة تسلية وحركات كشفية"
+};
+function fill(d){
+  FIELDS.forEach(k => $(k).value = d[k] || "");
+  CONFIG.units.forEach((u,i) => $("u"+i).checked = (d.units||[]).includes(u));
+}
+function read(){
+  const d = {}; FIELDS.forEach(k => d[k] = $(k).value.trim());
+  d.units = CONFIG.units.filter((u,i) => $("u"+i).checked);
+  d.len = document.querySelector("input[name=len]:checked").value;
+  return d;
+}
+
+function updateChain(){ $("chainPreview").textContent = orgParts(read()).chain; }
+["comm","region","troop","stage"].forEach(id => $(id).addEventListener("input", updateChain));
+function toggleStageName(){ $("stageNameBox").hidden = !$("stage").value; if (!$("stage").value) $("stageName").value = ""; }
+$("stageName").addEventListener("input", updateChain);
+$("stage").addEventListener("change", () => {
+  toggleStageName();
+  updateChain();
+  const st = CONFIG.stages.find(x => x.name === $("stage").value);
+  const i = st && st.unit ? CONFIG.units.indexOf(st.unit) : -1;
+  if (i >= 0) $("u"+i).checked = true;   // المرحلة المنفِّذة مشاركة حكماً
+});
+
+let current = null;
+function render(out, tag){
+  current = out;
+  $("outTag").textContent = tag; $("outTag").hidden = !tag;
+  $("heads").innerHTML = "";
+  out.headlines.forEach((t,i) => {
+    const lab = document.createElement("label"); lab.className = "head";
+    const r = document.createElement("input"); r.type = "radio"; r.name = "hl"; r.id = "hl"+i; r.value = i; r.checked = i === 0;
+    const s = document.createElement("span"); s.textContent = t; s.contentEditable = "true"; s.spellcheck = false;
+    lab.append(r, s); $("heads").append(lab);
+  });
+  $("body").textContent = out.body;
+  $("social").textContent = out.social;
+}
+
+function toast(t){ $("toastText").textContent = t; $("toast").hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => $("toast").hidden = true, 1800); }
+async function copy(text, el){
+  try { await navigator.clipboard.writeText(text); toast("نُسخ"); }
+  catch { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); try{ document.execCommand("copy"); toast("نُسخ"); }catch{ toast("حُدِّد النص، انسخه يدوياً"); } }
+}
+document.querySelectorAll("[data-copy]").forEach(b => b.onclick = () => { const el = $(b.dataset.copy); copy(el.innerText, el); });
+$("copyAll").onclick = () => {
+  const sel = document.querySelector("input[name=hl]:checked");
+  const head = sel ? sel.nextElementSibling.innerText.trim() : "";
+  copy(head + "\n\n" + $("body").innerText.trim(), $("body"));
+};
+
+$("clearBtn").onclick = () => {
+  fill({ comm: CONFIG.defaultCommissariat }); $("sampleNote").hidden = true;
+  try { const saved = JSON.parse(localStorage.getItem("risala-news-org") || "null"); if (saved) { ["comm","region","troop"].forEach(k => $(k).value = saved[k] || ""); CONFIG.units.forEach((u,i) => $("u"+i).checked = (saved.units||[]).includes(u)); } } catch {}
+  toggleStageName();
+  updateChain();
+  $("comm").focus();
+};
+
+$("f").addEventListener("submit", e => {
+  e.preventDefault();
+  const d = read(); const miss = [];
+  if(!d.comm && !d.region && !d.troop) miss.push("الجهة المنفِّذة");
+  if(!d.kind) miss.push("نوع النشاط");
+  if(!d.place) miss.push("المكان");
+  if(!d.details) miss.push("ماذا جرى في النشاط");
+  $("formErr").textContent = miss.length ? "أكمل: " + miss.join("، ") : "";
+  if (miss.length) return;
+  try { localStorage.setItem("risala-news-org", JSON.stringify({ comm: d.comm, region: d.region, troop: d.troop, units: d.units })); } catch {}
+  render(compose(d), "");
+  if (matchMedia("(max-width:860px)").matches) $("out-h").scrollIntoView({ behavior: "smooth" });
+});
+
+fill(SAMPLE);
+toggleStageName();
+updateChain();
+render(compose(read()), "مثال");
+</script>
+</body>
+</html>
